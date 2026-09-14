@@ -5,15 +5,10 @@ import {
   Zap,
   Repeat,
   RotateCcw,
-  Users2,
-  Calendar,
   ArrowUpRight,
-  Sparkles,
-  HelpCircle,
-  IndianRupee,
-  ShieldCheck,
-  CheckCircle2
+  Info
 } from 'lucide-react';
+
 
 export const GrowthView = () => {
   const { growthMetrics, organization, runReactivationCampaign, addToast } = useApp();
@@ -32,153 +27,125 @@ export const GrowthView = () => {
       <div className="page-header">
         <div>
           <div className="page-title">
-            <TrendingUp size={24} color="#10b981" />
-            <span>Revenue Recovery & Clinic Growth Analytics</span>
+            <TrendingUp size={20} color="var(--color-success-text)" />
+            <span>Revenue Recovery &amp; Growth Analytics</span>
           </div>
           <div className="page-subtitle">
-            Measurable, database-calculated revenue metrics and automated patient retention impact
+            No-show recovery, lead conversion, and patient retention metrics
           </div>
         </div>
 
         <div style={{ display: 'flex', gap: 10 }}>
           <button className="btn btn-emerald btn-sm" onClick={handleRunReactivation}>
-            <RotateCcw size={14} /> Run 90-Day Reactivation Campaign
+            <RotateCcw size={13} /> Run Reactivation Campaign
           </button>
         </div>
       </div>
 
-      {/* Revenue Breakdown HUD */}
-      <div className="grid-3" style={{ marginBottom: 24 }}>
-        {/* Metric 1: Total Collected Revenue */}
-        <div className="glass-card" style={{ borderLeft: '4px solid #10b981' }}>
-          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700 }}>
-            ACTUAL COLLECTED REVENUE
-          </div>
-          <div style={{ fontSize: '2.1rem', fontWeight: 900, color: '#f8fafc', marginTop: 6 }}>
+      {/* Demo Notice */}
+      <div className="cf-demo-notice">
+        <Info size={13} />
+        <span><strong>Sample Dataset</strong> — Revenue figures and acquisition metrics shown here are synthetic demo data.</span>
+      </div>
+
+      {/* Revenue Breakdown */}
+      <div className="grid-3" style={{ marginBottom: 20 }}>
+        <div className="glass-card" style={{ borderLeft: '3px solid var(--color-success-text)' }}>
+          <div className="cf-kpi-label">Total Collected Revenue</div>
+          <div className="cf-kpi-value" style={{ marginTop: 6 }}>
             ₹{growthMetrics.revenueGenerated.toLocaleString('en-IN')}
           </div>
-          <div style={{ fontSize: '0.74rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: 4, marginTop: 4 }}>
-            <ArrowUpRight size={14} /> ₹{(growthMetrics.revenueGenerated - 48000).toLocaleString('en-IN')} vs prior month
+          <div className="cf-kpi-meta" style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--color-success-text)', marginTop: 4 }}>
+            <ArrowUpRight size={11} /> +18.4% vs prior month
           </div>
-          <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginTop: 8 }}>
-            Includes consultations, procedures & diagnostics
-          </div>
+          <div className="cf-kpi-meta" style={{ marginTop: 4 }}>Consultations, procedures &amp; diagnostics</div>
         </div>
 
-        {/* Metric 2: Recovered Revenue from No-Shows */}
-        <div className="glass-card" style={{ borderLeft: '4px solid #0ea5e9' }}>
-          <div style={{ fontSize: '0.78rem', color: '#38bdf8', fontWeight: 800, display: 'flex', alignItems: 'center', gap: 6 }}>
-            <Zap size={14} /> AUTOMATED RECOVERED REVENUE
-          </div>
-          <div style={{ fontSize: '2.1rem', fontWeight: 900, color: '#0ea5e9', marginTop: 6 }}>
+        <div className="glass-card" style={{ borderLeft: '3px solid var(--color-info-text)' }}>
+          <div className="cf-kpi-label">Automated Recovery Revenue</div>
+          <div className="cf-kpi-value" style={{ marginTop: 6, color: 'var(--color-info-text)' }}>
             ₹{growthMetrics.revenueRecovered.toLocaleString('en-IN')}
           </div>
-          <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: 4 }}>
-            From <strong>{growthMetrics.recoveredAppointments} recovered appointments</strong> ({growthMetrics.noShowRecoveryRate}% recovery rate)
-          </div>
-          <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginTop: 8 }}>
-            Zero manual calls needed • 100% WhatsApp bot recovery
+          <div className="cf-kpi-meta" style={{ marginTop: 4 }}>
+            <strong>{growthMetrics.recoveredAppointments}</strong> of {growthMetrics.noShowAppointments} no-shows rebooked ({growthMetrics.noShowRecoveryRate}%)
           </div>
         </div>
 
-        {/* Metric 3: Outstanding / Pending Revenue */}
-        <div className="glass-card" style={{ borderLeft: '4px solid #ef4444' }}>
-          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700 }}>
-            OUTSTANDING PENDING INVOICES
-          </div>
-          <div style={{ fontSize: '2.1rem', fontWeight: 900, color: '#ef4444', marginTop: 6 }}>
+        <div className="glass-card" style={{ borderLeft: '3px solid var(--color-critical-text)' }}>
+          <div className="cf-kpi-label">Outstanding Pending Invoices</div>
+          <div className="cf-kpi-value" style={{ marginTop: 6, color: 'var(--color-critical-text)' }}>
             ₹{growthMetrics.revenuePending.toLocaleString('en-IN')}
           </div>
-          <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: 4 }}>
-            Unpaid consultation balances & insurance pre-auths
-          </div>
-          <div style={{ fontSize: '0.7rem', color: '#f87171', marginTop: 8 }}>
-            Automated payment reminders active
-          </div>
+          <div className="cf-kpi-meta" style={{ marginTop: 4 }}>Unpaid balances awaiting collection</div>
         </div>
       </div>
 
       {/* Secondary Growth Streams */}
-      <div className="grid-2" style={{ marginBottom: 24 }}>
-        {/* Follow-up Revenue */}
+      <div className="grid-2" style={{ marginBottom: 20 }}>
         <div className="glass-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ padding: 8, borderRadius: 'var(--radius-sm)', background: 'var(--amber-light)' }}>
-                <Repeat size={18} color="#f59e0b" />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Repeat size={16} color="var(--color-warning-text)" />
+                Follow-Up Retention Revenue
               </div>
-              <div>
-                <div style={{ fontWeight: 800, fontSize: '1rem', color: '#fff' }}>
-                  Follow-Up Retention Revenue
-                </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                  Generated from automated chronic care & post-op follow-up queues
-                </div>
-              </div>
+              <div className="page-subtitle" style={{ marginTop: 2 }}>Chronic care &amp; post-op follow-up queues</div>
             </div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#f59e0b' }}>
+            <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-warning-text)' }}>
               ₹{growthMetrics.followUpRevenue.toLocaleString('en-IN')}
             </div>
           </div>
-          <div style={{ fontSize: '0.78rem', color: '#cbd5e1', lineHeight: 1.5 }}>
-            Follow-up completion rate increased from <strong>38% to 64%</strong> using WhatsApp 1-tap booking reminders.
+          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+            Follow-up completion rate increased using WhatsApp 1-tap booking reminders.
           </div>
         </div>
 
-        {/* Reactivation Revenue */}
         <div className="glass-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ padding: 8, borderRadius: 'var(--radius-sm)', background: 'var(--purple-light)' }}>
-                <RotateCcw size={18} color="#a855f7" />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <RotateCcw size={16} color="var(--primary)" />
+                Patient Reactivation Revenue
               </div>
-              <div>
-                <div style={{ fontWeight: 800, fontSize: '1rem', color: '#fff' }}>
-                  Patient Reactivation Revenue
-                </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                  Re-engaged patients inactive for over 90 days
-                </div>
-              </div>
+              <div className="page-subtitle" style={{ marginTop: 2 }}>Re-engaged patients inactive &gt;90 days</div>
             </div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#a855f7' }}>
+            <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)' }}>
               ₹{growthMetrics.reactivationRevenue.toLocaleString('en-IN')}
             </div>
           </div>
-          <div style={{ fontSize: '0.78rem', color: '#cbd5e1', lineHeight: 1.5 }}>
-            Compliant DPDP-verified check-in messages brought back <strong>48 inactive patients</strong> this quarter.
+          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+            Consent-compliant check-in messages brought back inactive patients this quarter.
           </div>
         </div>
       </div>
 
-      {/* Interactive No-Show Recovery Revenue Simulator */}
-      <div className="glass-card" style={{ background: 'linear-gradient(135deg, rgba(15,23,42,0.9), rgba(13,27,51,0.9))', borderColor: 'rgba(14,165,233,0.3)', marginBottom: 24 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
+      {/* No-Show Recovery ROI Calculator */}
+      <div className="glass-card" style={{ borderLeft: '3px solid var(--primary)', marginBottom: 20 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 14, marginBottom: 16 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Zap size={20} color="#0ea5e9" />
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff' }}>
-                Interactive No-Show Recovery ROI Calculator
+              <Zap size={18} color="var(--primary)" />
+              <h3 style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--text-main)' }}>
+                No-Show Recovery ROI Simulator
               </h3>
             </div>
-            <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', marginTop: 4 }}>
-              Simulate the bottom-line financial impact of improving your clinic's automated recovery rate.
+            <p className="page-subtitle" style={{ marginTop: 4 }}>
+              Simulate the financial impact of improving automated recovery rate.
             </p>
           </div>
 
-          <div style={{ padding: '8px 18px', borderRadius: 'var(--radius-md)', background: 'var(--emerald-light)', border: '1px solid rgba(16,185,129,0.3)', textAlign: 'right' }}>
-            <div style={{ fontSize: '0.72rem', color: '#34d399', fontWeight: 700 }}>Projected Annual Revenue Gain</div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#10b981' }}>
+          <div style={{ padding: '8px 16px', borderRadius: 'var(--radius-sm)', background: 'var(--color-success-bg)', border: '1px solid var(--color-success-border)', textAlign: 'right' }}>
+            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-success-text)', fontWeight: 700 }}>Projected Annual Gain</div>
+            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-success-text)' }}>
               +₹{((growthMetrics.revenueRecovered + (potentialMonthlyGain > 0 ? potentialMonthlyGain : 0)) * 12).toLocaleString('en-IN')}
             </div>
           </div>
         </div>
 
-        {/* Range Slider */}
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.84rem', fontWeight: 700, marginBottom: 8 }}>
-            <span>Target Recovery Rate: <strong style={{ color: '#0ea5e9', fontSize: '1rem' }}>{simulatedNoShowRate}%</strong></span>
-            <span style={{ color: 'var(--text-dim)' }}>Current Baseline: 72.7%</span>
+        <div style={{ marginBottom: 14 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 8, color: 'var(--text-muted)' }}>
+            <span>Target Recovery Rate: <strong style={{ color: 'var(--primary)' }}>{simulatedNoShowRate}%</strong></span>
+            <span>Current Baseline: 72.7%</span>
           </div>
           <input
             type="range"
@@ -186,33 +153,33 @@ export const GrowthView = () => {
             max="95"
             value={simulatedNoShowRate}
             onChange={(e) => setSimulatedNoShowRate(Number(e.target.value))}
-            style={{ width: '100%', accentColor: '#0ea5e9', cursor: 'pointer', height: 8 }}
+            style={{ width: '100%', accentColor: 'var(--primary)', cursor: 'pointer', height: 6 }}
           />
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-dim)' }}>
-          <span>30% (Industry Average / Manual Calls)</span>
-          <span>72.7% (CareFlow Automated WhatsApp)</span>
-          <span>95% (CareFlow AI + Auto-Deposit)</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--text-xs)', color: 'var(--text-dim)' }}>
+          <span>30% (Manual Calls)</span>
+          <span>72.7% (Automated WhatsApp)</span>
+          <span>95% (Target)</span>
         </div>
       </div>
 
-      {/* Commercial Attribution Breakdown */}
+      {/* Channel Attribution */}
       <div className="glass-card">
-        <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#fff', marginBottom: 14 }}>
-          Channel Attribution & Acquisition Efficiency
+        <div style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--text-main)', marginBottom: 14 }}>
+          Channel Attribution &amp; Acquisition Efficiency
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
           {[
-            { channel: 'Instagram DMs / Ads', conv: '46.2%', volume: '142 Inquiries', roi: '8.4x ROI', color: '#ec4899' },
-            { channel: 'WhatsApp Direct Link', conv: '41.8%', volume: '290 Inquiries', roi: '12.2x ROI', color: '#25D366' },
-            { channel: 'Google Search / GMB', conv: '24.1%', volume: '180 Inquiries', roi: '4.8x ROI', color: '#0ea5e9' },
-            { channel: 'Clinic Counter QR', conv: '68.5%', volume: '94 Scans', roi: 'Direct Walk-in', color: '#a855f7' }
+            { channel: 'Instagram',        conv: '46.2%', volume: '142 Inquiries', roi: '8.4x ROI',     color: 'var(--color-critical-text)' },
+            { channel: 'WhatsApp Direct',  conv: '41.8%', volume: '290 Inquiries', roi: '12.2x ROI',   color: 'var(--whatsapp)' },
+            { channel: 'Google Search',    conv: '24.1%', volume: '180 Inquiries', roi: '4.8x ROI',    color: 'var(--primary)' },
+            { channel: 'Clinic QR Code',   conv: '68.5%', volume: '94 Scans',      roi: 'Direct Walk-in', color: 'var(--color-success-text)' }
           ].map((item) => (
-            <div key={item.channel} style={{ padding: 14, borderRadius: 'var(--radius-sm)', background: 'var(--bg-surface)', border: '1px solid var(--border-color)' }}>
-              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: item.color }}>{item.channel}</div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', marginTop: 4 }}>{item.conv}</div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 2 }}>{item.volume} • {item.roi}</div>
+            <div key={item.channel} className="cf-panel">
+              <div style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: item.color, marginBottom: 4 }}>{item.channel}</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-main)' }}>{item.conv}</div>
+              <div className="cf-kpi-meta">{item.volume} · {item.roi}</div>
             </div>
           ))}
         </div>

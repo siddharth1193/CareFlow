@@ -11,7 +11,8 @@ export const AppProvider = ({ children }) => {
   // Load state from local storage or defaults
   const [data, setData] = useState(() => storageService.loadState());
   const [activeView, setActiveView] = useState('dashboard'); // dashboard | leads | inbox | appointments | patients | triage | growth | billing | pharmacy | diagnostics | automation | ai-copilot | tasks | landing | demo
-  const [theme, setTheme] = useState(() => localStorage.getItem('careflow_theme') || 'dark');
+  const [theme, setTheme] = useState(() => localStorage.getItem('careflow_theme') || 'light');
+
   const [activeBranchId, setActiveBranchId] = useState('branch-1');
   const [toasts, setToasts] = useState([]);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
@@ -64,13 +65,14 @@ export const AppProvider = ({ children }) => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   }, []);
 
-  // Role switcher
+  // Role switcher — UI-only demo persona. Does not implement real authentication.
   const setUserRole = useCallback((role) => {
     const roleProfiles = {
-      CLINIC_OWNER: { name: "Dr. Arvind Swaminathan", role: "CLINIC_OWNER", title: "Chief Medical Director & Owner" },
-      DOCTOR: { name: "Dr. Priya Nair", role: "DOCTOR", title: "Senior Consultant Dermatologist" },
-      RECEPTIONIST: { name: "Ananya Sharma", role: "RECEPTIONIST", title: "Front Desk & Patient Flow Lead" },
-      BILLING_STAFF: { name: "Rohan Mehta", role: "BILLING_STAFF", title: "Billing & Growth Manager" }
+      CLINIC_OWNER: { name: "Dr. Arvind Swaminathan", role: "CLINIC_OWNER", title: "Clinic Owner — Executive" },
+      DOCTOR:       { name: "Dr. Priya Nair",         role: "DOCTOR",       title: "Senior Consultant Dermatologist" },
+      NURSE:        { name: "Sr. Nurse Meera Pillai", role: "NURSE",        title: "Charge Nurse — Clinical Ops" },
+      RECEPTIONIST: { name: "Ananya Sharma",          role: "RECEPTIONIST", title: "Patient Flow & Reception" },
+      BILLING_STAFF:{ name: "Rohan Mehta",            role: "BILLING_STAFF",title: "Billing & Finance" }
     };
     const profile = roleProfiles[role] || roleProfiles.CLINIC_OWNER;
     setData((prev) => ({
@@ -78,11 +80,12 @@ export const AppProvider = ({ children }) => {
       currentUser: { ...prev.currentUser, ...profile }
     }));
     addToast({
-      title: "Role Switched",
-      message: `Active persona: ${profile.name} (${profile.role})`,
+      title: "Persona Switched",
+      message: `Demo persona: ${profile.name} · ${profile.title}`,
       type: "info"
     });
   }, [addToast]);
+
 
   // Lead Actions
   const addLead = useCallback((leadData) => {
@@ -431,7 +434,7 @@ export const AppProvider = ({ children }) => {
         if (aiResponse.triggerHandoff) {
           addToast({
             title: "Human Handoff Triggered",
-            message: "AI receptionist requested staff takeover for clinical/complex query",
+            message: "Automated assistant requested staff takeover for clinical/complex query",
             type: "warning"
           });
         }
@@ -457,7 +460,7 @@ export const AppProvider = ({ children }) => {
       conversations: prev.conversations.map((c) => (c.id === convId ? { ...c, status: 'AI_ACTIVE' } : c))
     }));
     addToast({
-      title: "AI Receptionist Resumed",
+      title: "Automated Assistant Resumed",
       message: "CareFlow AI is now automatically responding to incoming patient queries.",
       type: "success"
     });

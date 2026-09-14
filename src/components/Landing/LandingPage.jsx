@@ -52,7 +52,8 @@ export const LandingPage = () => {
           </div>
           <div>
             <span style={{ fontWeight: 900, fontSize: '1.35rem', letterSpacing: '-0.03em' }}>CareFlow</span>
-            <span className="badge badge-primary" style={{ marginLeft: 8, fontSize: '0.65rem' }}>AI HEALTHCARE SAAS</span>
+            <span className="badge badge-muted" style={{ marginLeft: 8, fontSize: '0.65rem' }}>HEALTHCARE OPERATIONS OS</span>
+
           </div>
         </div>
 
@@ -172,9 +173,9 @@ export const LandingPage = () => {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12 }}>
           {[
-            { step: '1. ATTRACT', desc: 'Social & Web Leads', color: '#0ea5e9' },
-            { step: '2. CONVERT', desc: 'AI Receptionist', color: '#a855f7' },
-            { step: '3. BOOK', desc: 'Multi-Doctor Sync', color: '#6366f1' },
+            { step: '1. CAPTURE', desc: 'Omnichannel Inbox', color: '#3b82f6' },
+            { step: '2. CONVERT', desc: 'Automated Assistant', color: '#a855f7' },
+            { step: '3. RETAIN', desc: 'No-Show Recovery', color: '#10b981' },
             { step: '4. REMIND', desc: '24h WhatsApp Bot', color: '#25D366' },
             { step: '5. CONSULT', desc: 'EHR & Telehealth', color: '#10b981' },
             { step: '6. FOLLOW UP', desc: 'Attention Tasks', color: '#f59e0b' },
@@ -259,8 +260,8 @@ export const LandingPage = () => {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {[
-                "Captures & Converts Inbound Leads 24x7 via WhatsApp AI Receptionist.",
-                "Recovers Missed Appointments with automated instant re-booking prompts.",
+                "Captures & Converts Inbound Leads 24x7 via WhatsApp Automated Assistant.",
+                "Automated No-Show Recovery with 1-click rescheduling.",
                 "Dispatches 24h & 2h Smart WhatsApp reminders with 1-click confirmation.",
                 "Re-engages Inactive Patients (>90 days) with compliant personalized check-ins.",
                 "Shows Real Business ROI with exact database-calculated recovered revenue in ₹."

@@ -1,0 +1,29 @@
+warning: in the working copy of 'src/App.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/App.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/AICopilot/AICopilotView.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/Dashboard/DashboardView.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/Demo/InteractiveDemoModal.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/Growth/GrowthView.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/Inbox/InboxView.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/Landing/LandingPage.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/Layout/Navbar.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/Layout/Sidebar.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/context/AppContext.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/data/initialData.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/index.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/services/aiService.js', LF will be replaced by CRLF the next time Git touches it
+ src/App.css                                  | 185 [32m+[m[31m----[m
+ src/App.jsx                                  |  44 [32m+[m[31m-[m
+ src/components/AICopilot/AICopilotView.jsx   | 253 [32m++++[m[31m---[m
+ src/components/Dashboard/DashboardView.jsx   | 910 [32m++++++++++++++++++[m[31m-------[m
+ src/components/Demo/InteractiveDemoModal.jsx |   8 [32m+[m[31m-[m
+ src/components/Growth/GrowthView.jsx         | 193 [32m+++[m[31m---[m
+ src/components/Inbox/InboxView.jsx           |   4 [32m+[m[31m-[m
+ src/components/Landing/LandingPage.jsx       |  13 [32m+[m[31m-[m
+ src/components/Layout/Navbar.jsx             | 220 [32m+++[m[31m---[m
+ src/components/Layout/Sidebar.jsx            | 193 [32m+++[m[31m---[m
+ src/context/AppContext.jsx                   |  23 [32m+[m[31m-[m
+ src/data/initialData.js                      |   4 [32m+[m[31m-[m
+ src/index.css                                | 975 [32m++++++++++++++++[m[31m-----------[m
+ src/services/aiService.js                    |  15 [32m+[m[31m-[m
+ 14 files changed, 1741 insertions(+), 1299 deletions(-)

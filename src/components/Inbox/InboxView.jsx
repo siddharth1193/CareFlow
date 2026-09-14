@@ -217,7 +217,7 @@ export const InboxView = () => {
             </div>
           </div>
 
-          {/* Quick Simulation Bar for Testing AI Receptionist & Guardrails */}
+          {/* Quick Simulation Bar for Testing Automated Assistant & Guardrails */}
           <div style={{ padding: '8px 20px', background: 'rgba(14,165,233,0.06)', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
             <span style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--primary)' }}>
               ⚡ SIMULATE PATIENT QUERY:
@@ -280,7 +280,7 @@ export const InboxView = () => {
                   >
                     {isAI ? (
                       <span style={{ color: '#34d399', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 3 }}>
-                        <Bot size={11} /> CareFlow AI Receptionist
+                        <Bot size={11} /> CareFlow Automated Assistant
                       </span>
                     ) : isPatient ? (
                       <span style={{ fontWeight: 600 }}>{activeConv.contactName}</span>

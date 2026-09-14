@@ -126,7 +126,7 @@ export const INITIAL_DATA = {
       serviceInterested: "Dermatology (Acne Treatment)",
       assignedStaffId: "user-rec-1",
       status: "APPOINTMENT_BOOKED",
-      notes: "AI receptionist booked consult with Dr. Priya Nair after answering fee queries.",
+      notes: "Automated Assistant booked consult with Dr. Priya Nair after answering fee queries.",
       lastContactedAt: "2026-09-06T10:15:00",
       nextFollowUpAt: "2026-09-07T11:00:00",
       convertedPatientId: "pat-105",
@@ -458,7 +458,7 @@ export const INITIAL_DATA = {
       triageScore: 5,
       channel: "WHATSAPP_AI",
       isRecovered: false,
-      notes: "Lead captured and converted automatically by CareFlow AI Receptionist."
+      notes: "Lead captured and converted automatically by CareFlow Automated Assistant."
     },
     {
       id: "apt-205",

@@ -51,14 +51,14 @@ export const InteractiveDemoModal = () => {
     },
     {
       step: 2,
-      title: "2. Instant AI Receptionist Engagement (< 3 Seconds)",
-      category: "AI RECEPTIONIST",
+      title: "2. Instant Automated Assistant Engagement (< 3 Seconds)",
+      category: "AUTOMATED ASSISTANT",
       icon: Bot,
       color: "#25D366",
-      description: "CareFlow's Administrative AI Receptionist analyzes the clinical intent (Dermatology) and responds instantly within safe non-clinical boundaries.",
+      description: "CareFlow's Rule-Based Automated Assistant analyzes the clinical intent (Dermatology) and responds instantly within safe non-clinical boundaries.",
       simulation: {
         type: "CHAT_AI",
-        sender: "CareFlow AI Receptionist",
+        sender: "CareFlow Automated Assistant",
         text: "Hello Rohan! Welcome to Apex Healthcare. Our Senior Dermatologist Dr. Priya Nair (MD, DVL) specializes in acne management. The consultation fee is ₹1,000.\n\nWould you like to check today's available slots?"
       },
       takeaway: "Receptionist workload is cut by 80% with instantaneous personalized responses."

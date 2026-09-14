@@ -1,46 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import {
-  Bot,
-  Sparkles,
+  Brain,
   Send,
-  TrendingUp,
   Lightbulb,
   CheckCircle2,
-  ShieldCheck,
-  Zap,
   ArrowRight,
-  BarChart3,
-  Calendar,
-  IndianRupee,
-  Users2
+  Info,
+  FlaskConical
 } from 'lucide-react';
 import { aiService } from '../../services/aiService';
 
+/* Role-contextual quick prompts */
+const ROLE_PROMPTS = {
+  CLINIC_OWNER: [
+    "How many appointments did we have this month?",
+    "How much revenue did we recover from no-shows?",
+    "Which doctor had the highest appointment volume?",
+    "Show me total collected vs pending revenue",
+    "How many patients need follow-up?"
+  ],
+  DOCTOR: [
+    "Which patients need attention today?",
+    "How many follow-ups are overdue?",
+    "Show me today's appointment summary",
+    "Which patients missed their appointments?",
+    "What are today's highest-priority tasks?"
+  ],
+  RECEPTIONIST: [
+    "How many new leads came in this week?",
+    "Which follow-ups are overdue?",
+    "Which no-shows need rescheduling?",
+    "What are the pending patient actions?",
+    "Show me lead conversion performance"
+  ],
+  BILLING_STAFF: [
+    "Show me our total collected vs pending revenue",
+    "How much did we recover from no-shows?",
+    "Which invoices are still pending payment?",
+    "What is our monthly revenue target progress?",
+    "Show me the financial performance summary"
+  ]
+};
+
 export const AICopilotView = () => {
-  const { data, aiInsights, organization } = useApp();
+  const { data, aiInsights, organization, currentUser } = useApp();
 
   const [queryInput, setQueryInput] = useState('');
+  const [isThinking, setIsThinking] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: 'msg-init',
       sender: 'AI_COPILOT',
-      text: `Namaste Dr. Arvind! I am your CareFlow AI Business Copilot. I analyze your real clinic database records (appointments, revenue recovery, leads, and staff tasks) to provide accurate business intelligence.\n\nAsk me any operational question or select one of the quick prompts below!`,
+      text: `Welcome to the CareFlow Operational Copilot.\n\nI analyze your demo dataset — appointments, revenue, leads, and tasks — to answer operational questions.\n\nAsk me about your clinic's performance, or select a prompt below.\n\nNote: Responses are generated from sample data, not a live hospital system.`,
       timestamp: new Date().toISOString()
     }
   ]);
 
-  const quickPrompts = [
-    "How many appointments did we have this month?",
-    "How much revenue did we recover from no-shows?",
-    "How many patients need follow-up?",
-    "Which doctor had the highest appointment volume?",
-    "Show me our total collected vs pending revenue"
-  ];
+  const messagesEndRef = useRef(null);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isThinking]);
+
+  const role = currentUser?.role || 'CLINIC_OWNER';
+  const quickPrompts = ROLE_PROMPTS[role] || ROLE_PROMPTS.CLINIC_OWNER;
 
   const handleSendQuery = (textToSend) => {
     const q = textToSend || queryInput;
-    if (!q.trim()) return;
+    if (!q.trim() || isThinking) return;
 
     const userMsg = {
       id: `user-${Date.now()}`,
@@ -49,12 +76,12 @@ export const AICopilotView = () => {
       timestamp: new Date().toISOString()
     };
 
-    setMessages((prev) => [...prev, userMsg]);
+    setMessages(prev => [...prev, userMsg]);
     if (!textToSend) setQueryInput('');
+    setIsThinking(true);
 
     setTimeout(() => {
       const result = aiService.processCopilotQuery({ query: q, data });
-
       const aiMsg = {
         id: `ai-${Date.now()}`,
         sender: 'AI_COPILOT',
@@ -63,9 +90,9 @@ export const AICopilotView = () => {
         actionRequired: result.actionRequired,
         timestamp: new Date().toISOString()
       };
-
-      setMessages((prev) => [...prev, aiMsg]);
-    }, 500);
+      setMessages(prev => [...prev, aiMsg]);
+      setIsThinking(false);
+    }, 700);
   };
 
   return (
@@ -74,156 +101,182 @@ export const AICopilotView = () => {
       <div className="page-header">
         <div>
           <div className="page-title">
-            <Bot size={24} color="var(--indigo)" />
-            <span>AI Business Copilot & Growth Intelligence</span>
+            <Brain size={22} color="var(--color-ai-text)" />
+            <span>Operational Intelligence Copilot</span>
           </div>
           <div className="page-subtitle">
-            Tenant-isolated, parameterized natural-language assistant and proactive clinic insights
+            Answers operational questions from your demo dataset · {organization.name}
           </div>
         </div>
-
-        <span className="badge badge-indigo">
-          <ShieldCheck size={12} /> RBAC & Tenant-Isolated Query Engine
+        <span className="cf-ai-label">
+          <FlaskConical size={11} /> Demo Dataset · Rule-Based Assistant
         </span>
       </div>
 
-      {/* Main Layout: Proactive Insights (Top) + Interactive Chat (Bottom) */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 24 }}>
-        {/* LEFT COLUMN: Natural Language Chat Interface */}
-        <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', height: 640 }}>
+      {/* Demo Notice */}
+      <div className="cf-demo-notice">
+        <Info size={13} />
+        <span>
+          <strong>Operational Copilot</strong> — Responses are generated by a rule-based query engine from your demo dataset. This is not an LLM or generative AI. Data shown is synthetic and does not represent real hospital records.
+        </span>
+      </div>
+
+      {/* Main Layout */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 20 }}>
+        {/* Chat Interface */}
+        <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', height: 620, padding: 0, overflow: 'hidden' }}>
           {/* Chat Header */}
-          <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#10b981' }} />
-              <span style={{ fontWeight: 800, fontSize: '0.92rem', color: '#fff' }}>
-                Executive Copilot Session (Org: {organization.name.split(' ')[0]})
+              <span className="cf-status-dot success" />
+              <span style={{ fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--text-main)' }}>
+                Copilot Session — {organization.name.split(' ')[0]}
               </span>
             </div>
-            <span style={{ fontSize: '0.72rem', color: 'var(--text-dim)' }}>Zero Data Leakage Guarantee</span>
+            <span style={{ fontSize: '0.65rem', color: 'var(--text-dim)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Sample Dataset
+            </span>
           </div>
 
-          {/* Messages Stream */}
-          <div style={{ flex: 1, padding: 18, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {/* Messages */}
+          <div style={{ flex: 1, padding: 16, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
             {messages.map((m) => {
               const isUser = m.sender === 'USER';
               return (
                 <div
                   key={m.id}
-                  style={{
-                    alignSelf: isUser ? 'flex-end' : 'flex-start',
-                    maxWidth: '88%'
-                  }}
+                  style={{ alignSelf: isUser ? 'flex-end' : 'flex-start', maxWidth: '90%' }}
                 >
-                  <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginBottom: 4 }}>
-                    {isUser ? 'You (Clinic Owner)' : 'CareFlow AI Copilot'} • {new Date(m.timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)', marginBottom: 3, display: 'flex', alignItems: 'center', gap: 4 }}>
+                    {!isUser && <span className="cf-ai-label" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>AI</span>}
+                    {isUser ? 'You' : 'Operational Copilot'} · {new Date(m.timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
                   </div>
 
                   <div
                     style={{
-                      padding: '14px 18px',
+                      padding: '12px 16px',
                       borderRadius: 'var(--radius-md)',
                       background: isUser ? 'var(--primary-light)' : 'var(--bg-surface)',
-                      border: `1px solid ${isUser ? 'rgba(14,165,233,0.3)' : 'var(--border-color)'}`,
+                      border: `1px solid ${isUser ? 'var(--primary-border)' : 'var(--border-color)'}`,
                       color: 'var(--text-main)',
-                      fontSize: '0.88rem',
-                      lineHeight: 1.5,
+                      fontSize: 'var(--text-base)',
+                      lineHeight: 1.6,
                       whiteSpace: 'pre-line'
                     }}
                   >
                     {m.text}
 
-                    {/* Stats Widget inside message if present */}
+                    {/* Stats grid */}
                     {m.stats && (
-                      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${m.stats.length}, 1fr)`, gap: 8, marginTop: 12 }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(m.stats.length, 3)}, 1fr)`, gap: 8, marginTop: 12 }}>
                         {m.stats.map((s, idx) => (
-                          <div key={idx} style={{ padding: '8px 10px', borderRadius: 'var(--radius-sm)', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-color)' }}>
-                            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{s.label}</div>
-                            <div style={{ fontSize: '1rem', fontWeight: 800, color: s.color || 'var(--primary)', marginTop: 2 }}>{s.value}</div>
+                          <div key={idx} style={{ padding: '8px 10px', borderRadius: 'var(--radius-sm)', background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
+                            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>{s.label}</div>
+                            <div style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: s.color || 'var(--primary)', marginTop: 2 }}>{s.value}</div>
                           </div>
                         ))}
+                      </div>
+                    )}
+
+                    {m.actionRequired && (
+                      <div style={{ marginTop: 10, padding: '8px 10px', borderRadius: 'var(--radius-sm)', background: 'var(--color-ai-bg)', border: '1px solid var(--color-ai-border)', fontSize: 'var(--text-xs)', color: 'var(--color-ai-text)', display: 'flex', alignItems: 'flex-start', gap: 6 }}>
+                        <ArrowRight size={12} style={{ marginTop: 1, flexShrink: 0 }} />
+                        {m.actionRequired}
                       </div>
                     )}
                   </div>
                 </div>
               );
             })}
+
+            {/* Thinking indicator */}
+            {isThinking && (
+              <div style={{ alignSelf: 'flex-start', maxWidth: '90%' }}>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)', marginBottom: 3 }}>Operational Copilot</div>
+                <div style={{ padding: '12px 16px', borderRadius: 'var(--radius-md)', background: 'var(--bg-surface)', border: '1px solid var(--border-color)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text-muted)', fontSize: 'var(--text-sm)' }}>
+                    <span style={{ animation: 'thinking-pulse 1s ease infinite' }}>●</span>
+                    <span style={{ animation: 'thinking-pulse 1s ease 0.2s infinite' }}>●</span>
+                    <span style={{ animation: 'thinking-pulse 1s ease 0.4s infinite' }}>●</span>
+                    <span style={{ fontSize: 'var(--text-xs)', marginLeft: 4 }}>Analyzing demo data...</span>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Prompts Bar */}
-          <div style={{ padding: '8px 16px', borderTop: '1px solid var(--border-color)', background: 'var(--bg-surface)', display: 'flex', gap: 6, overflowX: 'auto' }}>
+          {/* Quick Prompts */}
+          <div style={{ padding: '8px 12px', borderTop: '1px solid var(--border-color)', background: 'var(--bg-surface)', display: 'flex', gap: 5, overflowX: 'auto', flexShrink: 0 }}>
             {quickPrompts.map((p, i) => (
               <button
                 key={i}
                 className="btn btn-secondary btn-sm"
-                style={{ fontSize: '0.72rem', whiteSpace: 'nowrap' }}
+                style={{ fontSize: 'var(--text-xs)', whiteSpace: 'nowrap' }}
                 onClick={() => handleSendQuery(p)}
+                disabled={isThinking}
               >
                 {p}
               </button>
             ))}
           </div>
 
-          {/* Query Input Box */}
+          {/* Input */}
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSendQuery();
-            }}
-            style={{ padding: '12px 16px', background: 'var(--bg-card-solid)', display: 'flex', gap: 10 }}
+            onSubmit={(e) => { e.preventDefault(); handleSendQuery(); }}
+            style={{ padding: '10px 14px', background: 'var(--bg-card-solid)', display: 'flex', gap: 8, flexShrink: 0 }}
           >
             <input
               type="text"
               className="input-control"
-              placeholder="Ask anything about appointments, doctors, leads, or recovered revenue..."
+              placeholder="Ask about appointments, revenue, leads, or operational performance..."
               value={queryInput}
               onChange={(e) => setQueryInput(e.target.value)}
+              disabled={isThinking}
+              style={{ fontSize: 'var(--text-sm)' }}
             />
-            <button type="submit" className="btn btn-primary" style={{ padding: '0 20px' }}>
-              <Send size={15} />
+            <button type="submit" className="btn btn-ai" style={{ padding: '0 16px', flexShrink: 0 }} disabled={isThinking || !queryInput.trim()}>
+              <Send size={14} />
             </button>
           </form>
         </div>
 
-        {/* RIGHT COLUMN: AI-Generated Business Insights (Requirement 12) */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {/* Right: Proactive Insights */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Lightbulb size={20} color="#fbbf24" />
-            <span style={{ fontWeight: 800, fontSize: '1.05rem', color: '#fff' }}>
-              AI-Generated Proactive Insights
+            <Lightbulb size={18} color="var(--color-warning-text)" />
+            <span style={{ fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--text-main)' }}>
+              Operational Insights
             </span>
+            <span className="cf-ai-label">AI · Demo Data</span>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {aiInsights.map((item) => (
-              <div
-                key={item.id}
-                className="glass-card"
-                style={{
-                  borderLeft: `4px solid ${item.badgeColor || '#0ea5e9'}`,
-                  padding: 18
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-                  <span className="badge" style={{ background: `${item.badgeColor}22`, color: item.badgeColor, border: `1px solid ${item.badgeColor}44`, fontSize: '0.68rem' }}>
-                    {item.category} • {item.impact} IMPACT
-                  </span>
-                </div>
-
-                <div style={{ fontWeight: 800, fontSize: '0.95rem', color: '#f8fafc', marginBottom: 6 }}>
-                  {item.title}
-                </div>
-
-                <div style={{ fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5, marginBottom: 10 }}>
-                  <strong style={{ color: '#cbd5e1' }}>Evidence:</strong> {item.evidence}
-                </div>
-
-                <div style={{ padding: '8px 12px', borderRadius: 'var(--radius-sm)', background: 'var(--bg-surface)', border: '1px solid var(--border-color)', fontSize: '0.78rem', color: '#38bdf8', display: 'flex', alignItems: 'flex-start', gap: 6 }}>
-                  <CheckCircle2 size={14} color="#38bdf8" style={{ marginTop: 2, flexShrink: 0 }} />
-                  <span><strong>Suggested Action:</strong> {item.suggestedAction}</span>
-                </div>
+          {aiInsights.map((item) => (
+            <div
+              key={item.id}
+              className="glass-card"
+              style={{ borderLeft: '3px solid var(--color-ai-text)', padding: '14px 16px' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
+                <span style={{ fontSize: '0.62rem', fontWeight: 700, color: 'var(--color-ai-text)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  {item.category} · {item.impact} Impact
+                </span>
               </div>
-            ))}
-          </div>
+
+              <div style={{ fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--text-main)', marginBottom: 6, lineHeight: 1.4 }}>
+                {item.title}
+              </div>
+
+              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: 10 }}>
+                <strong style={{ color: 'var(--text-muted)' }}>Evidence:</strong> {item.evidence}
+              </div>
+
+              <div style={{ padding: '7px 10px', borderRadius: 'var(--radius-sm)', background: 'var(--color-ai-bg)', border: '1px solid var(--color-ai-border)', fontSize: 'var(--text-xs)', color: 'var(--color-ai-text)', display: 'flex', alignItems: 'flex-start', gap: 5 }}>
+                <CheckCircle2 size={12} style={{ marginTop: 1, flexShrink: 0 }} />
+                <span><strong>Recommended:</strong> {item.suggestedAction}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -5,14 +5,12 @@ import {
   Search,
   Moon,
   Sun,
-  Sparkles,
   Building2,
-  ShieldCheck,
   Bell,
-  CheckCircle2,
-  ExternalLink,
+  Globe,
   Zap,
-  Globe
+  ChevronDown,
+  FlaskConical
 } from 'lucide-react';
 
 export const Navbar = () => {
@@ -29,19 +27,26 @@ export const Navbar = () => {
     startDemoMode,
     setActiveView,
     activeView,
-    growthMetrics,
     tasks
   } = useApp();
 
   const [isRoleMenuOpen, setIsRoleMenuOpen] = useState(false);
-  const [isNotifOpen, setIsNotifOpen] = useState(false);
+  const [isNotifOpen, setIsNotifOpen]     = useState(false);
 
   const pendingTasksCount = tasks.filter((t) => t.status === 'TODO').length;
+
+  const rolePersonas = [
+    { role: 'CLINIC_OWNER',  label: 'Dr. Arvind Swaminathan', subtitle: 'Clinic Owner — Executive View' },
+    { role: 'DOCTOR',        label: 'Dr. Priya Nair',         subtitle: 'Senior Dermatologist — Doctor View' },
+    { role: 'NURSE',         label: 'Sr. Nurse Meera Pillai', subtitle: 'Charge Nurse — Clinical Ops' },
+    { role: 'RECEPTIONIST',  label: 'Ananya Sharma',          subtitle: 'Front Desk — Operations View' },
+    { role: 'BILLING_STAFF', label: 'Rohan Mehta',            subtitle: 'Billing Manager — Finance View' }
+  ];
 
   return (
     <header
       style={{
-        height: 64,
+        height: 60,
         background: 'var(--bg-sidebar)',
         borderBottom: '1px solid var(--border-color)',
         display: 'flex',
@@ -54,50 +59,41 @@ export const Navbar = () => {
         backdropFilter: 'var(--backdrop-blur)'
       }}
     >
-      {/* Brand & Landing Link */}
+      {/* Brand */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
         <div
           onClick={() => setActiveView('dashboard')}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-            cursor: 'pointer',
-            userSelect: 'none'
-          }}
+          style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', userSelect: 'none' }}
         >
           <div
             style={{
-              width: 38,
-              height: 38,
-              borderRadius: 'var(--radius-md)',
-              background: 'linear-gradient(135deg, #0ea5e9, #6366f1)',
+              width: 34,
+              height: 34,
+              borderRadius: 'var(--radius-sm)',
+              background: 'linear-gradient(135deg, #2d7dd2, #1e5fa3)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 0 16px rgba(14, 165, 233, 0.45)'
+              flexShrink: 0
             }}
           >
-            <Activity size={22} color="#ffffff" />
+            <Activity size={19} color="#ffffff" />
           </div>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ fontWeight: 800, fontSize: '1.2rem', letterSpacing: '-0.03em', color: 'var(--text-main)' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+              <span style={{ fontWeight: 800, fontSize: '1.08rem', letterSpacing: '-0.03em', color: 'var(--text-main)' }}>
                 CareFlow
               </span>
-              <span className="badge badge-primary" style={{ fontSize: '0.62rem', padding: '1px 6px' }}>
-                AI GROWTH
-              </span>
             </div>
-            <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-              {organization.name.split(' ')[0]} Healthcare OS
+            <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)', fontWeight: 500, letterSpacing: '0.02em' }}>
+              Healthcare Operations OS
             </div>
           </div>
         </div>
 
         {/* Branch Selector */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--bg-surface)', padding: '5px 10px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)' }}>
-          <Building2 size={14} color="var(--primary)" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--bg-surface)', padding: '4px 10px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)' }}>
+          <Building2 size={13} color="var(--primary)" />
           <select
             value={activeBranchId}
             onChange={(e) => setActiveBranchId(e.target.value)}
@@ -105,10 +101,11 @@ export const Navbar = () => {
               background: 'transparent',
               border: 'none',
               color: 'var(--text-main)',
-              fontSize: '0.8rem',
+              fontSize: 'var(--text-sm)',
               fontWeight: 600,
               outline: 'none',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              fontFamily: 'inherit'
             }}
           >
             {branches.map((b) => (
@@ -120,7 +117,7 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* Quick Global Search Bar */}
+      {/* Search */}
       <div
         onClick={() => setIsCommandPaletteOpen(true)}
         style={{
@@ -128,28 +125,28 @@ export const Navbar = () => {
           alignItems: 'center',
           gap: 10,
           background: 'var(--bg-surface)',
-          padding: '7px 16px',
-          borderRadius: 'var(--radius-full)',
+          padding: '6px 14px',
+          borderRadius: 'var(--radius-sm)',
           border: '1px solid var(--border-color)',
           cursor: 'pointer',
-          width: 320,
-          transition: 'var(--transition-fast)'
+          width: 300,
+          transition: 'border-color var(--transition-fast)'
         }}
-        title="Quick Search & Actions"
+        title="Quick Search (Ctrl+K)"
       >
-        <Search size={15} color="var(--text-dim)" />
-        <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', flex: 1 }}>
+        <Search size={14} color="var(--text-dim)" />
+        <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-dim)', flex: 1 }}>
           Search patients, leads, actions...
         </span>
         <kbd
           style={{
-            fontSize: '0.68rem',
+            fontSize: '0.65rem',
             background: 'var(--bg-surface-elevated)',
-            padding: '2px 6px',
-            borderRadius: 4,
+            padding: '1px 5px',
+            borderRadius: 3,
             border: '1px solid var(--border-color)',
             color: 'var(--text-dim)',
-            fontWeight: 700
+            fontWeight: 600
           }}
         >
           Ctrl K
@@ -157,26 +154,22 @@ export const Navbar = () => {
       </div>
 
       {/* Right Controls */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        {/* Landing Page Button */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {/* Landing Page Toggle */}
         <button
           className={`btn btn-sm ${activeView === 'landing' ? 'btn-primary' : 'btn-ghost'}`}
           onClick={() => setActiveView(activeView === 'landing' ? 'dashboard' : 'landing')}
-          style={{ fontSize: '0.8rem' }}
+          style={{ fontSize: 'var(--text-sm)' }}
         >
-          <Globe size={14} />
-          {activeView === 'landing' ? 'Back to App' : 'Landing Page'}
+          <Globe size={13} />
+          {activeView === 'landing' ? 'Back to App' : 'Landing'}
         </button>
 
-        {/* 14-Step Interactive Sales Demo Launcher */}
-        <button
-          className="btn btn-emerald btn-sm"
-          onClick={startDemoMode}
-          style={{ boxShadow: '0 0 14px rgba(16, 185, 129, 0.35)' }}
-        >
-          <Zap size={14} />
+        {/* Interactive Demo */}
+        <button className="btn btn-emerald btn-sm" onClick={startDemoMode}>
+          <Zap size={13} />
           <span>Interactive Demo</span>
-          <span style={{ fontSize: '0.65rem', background: 'rgba(255,255,255,0.2)', padding: '1px 5px', borderRadius: 10, marginLeft: 2 }}>
+          <span style={{ fontSize: '0.62rem', background: 'rgba(255,255,255,0.2)', padding: '1px 5px', borderRadius: 8, marginLeft: 2 }}>
             14 Steps
           </span>
         </button>
@@ -186,49 +179,46 @@ export const Navbar = () => {
           <button
             className="btn btn-ghost btn-sm"
             onClick={() => setIsNotifOpen(!isNotifOpen)}
-            style={{ position: 'relative', width: 34, height: 34, padding: 0 }}
+            style={{ position: 'relative', width: 32, height: 32, padding: 0 }}
           >
-            <Bell size={16} />
+            <Bell size={15} />
             {pendingTasksCount > 0 && (
               <span
                 style={{
-                  position: 'absolute',
-                  top: 2,
-                  right: 2,
-                  width: 8,
-                  height: 8,
-                  borderRadius: '50%',
-                  background: '#ef4444'
+                  position: 'absolute', top: 2, right: 2,
+                  width: 7, height: 7, borderRadius: '50%',
+                  background: 'var(--color-critical-text)'
                 }}
               />
             )}
           </button>
 
-          {/* Notification Dropdown */}
           {isNotifOpen && (
             <div
               style={{
-                position: 'absolute',
-                right: 0,
-                top: 42,
-                width: 300,
+                position: 'absolute', right: 0, top: 40,
+                width: 290,
                 background: 'var(--bg-card-solid)',
                 border: '1px solid var(--border-color-hover)',
                 borderRadius: 'var(--radius-md)',
                 boxShadow: 'var(--shadow-lg)',
-                padding: 12,
-                zIndex: 100
+                padding: 12, zIndex: 100
               }}
             >
-              <div style={{ fontWeight: 700, fontSize: '0.85rem', marginBottom: 8, display: 'flex', justifyContent: 'space-between' }}>
-                <span>Attention Alerts ({pendingTasksCount})</span>
-                <span style={{ fontSize: '0.72rem', color: 'var(--primary)', cursor: 'pointer' }} onClick={() => { setActiveView('tasks'); setIsNotifOpen(false); }}>View All</span>
+              <div style={{ fontWeight: 700, fontSize: 'var(--text-sm)', marginBottom: 8, display: 'flex', justifyContent: 'space-between' }}>
+                <span>Pending Actions ({pendingTasksCount})</span>
+                <span
+                  style={{ fontSize: 'var(--text-xs)', color: 'var(--primary)', cursor: 'pointer' }}
+                  onClick={() => { setActiveView('tasks'); setIsNotifOpen(false); }}
+                >
+                  View All
+                </span>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 220, overflowY: 'auto' }}>
-                {tasks.slice(0, 3).map((t) => (
-                  <div key={t.id} style={{ fontSize: '0.76rem', padding: 8, borderRadius: 'var(--radius-sm)', background: 'var(--bg-surface)' }}>
-                    <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>{t.title}</div>
-                    <div style={{ fontSize: '0.68rem', color: 'var(--text-dim)', marginTop: 2 }}>Category: {t.category}</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 5, maxHeight: 200, overflowY: 'auto' }}>
+                {tasks.filter(t => t.status === 'TODO').slice(0, 4).map((t) => (
+                  <div key={t.id} style={{ fontSize: 'var(--text-xs)', padding: '7px 9px', borderRadius: 'var(--radius-sm)', background: 'var(--bg-surface)', borderLeft: `3px solid ${t.priority === 'HIGH' ? 'var(--color-critical-text)' : 'var(--color-warning-text)'}` }}>
+                    <div style={{ fontWeight: 600, color: 'var(--text-main)', marginBottom: 2 }}>{t.title}</div>
+                    <div style={{ color: 'var(--text-dim)' }}>Assigned: {t.assignedTo}</div>
                   </div>
                 ))}
               </div>
@@ -241,19 +231,17 @@ export const Navbar = () => {
           className="btn btn-ghost btn-sm"
           onClick={toggleTheme}
           title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-          style={{ width: 34, height: 34, padding: 0 }}
+          style={{ width: 32, height: 32, padding: 0 }}
         >
-          {theme === 'dark' ? <Sun size={16} color="#fbbf24" /> : <Moon size={16} color="#6366f1" />}
+          {theme === 'dark' ? <Sun size={15} color="#f59e0b" /> : <Moon size={15} color="var(--primary)" />}
         </button>
 
-        {/* Role & Persona Switcher */}
+        {/* Demo Persona Switcher */}
         <div style={{ position: 'relative' }}>
           <div
             onClick={() => setIsRoleMenuOpen(!isRoleMenuOpen)}
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
+              display: 'flex', alignItems: 'center', gap: 7,
               padding: '4px 10px',
               borderRadius: 'var(--radius-sm)',
               background: 'var(--bg-surface)',
@@ -261,77 +249,67 @@ export const Navbar = () => {
               cursor: 'pointer'
             }}
           >
+            {/* Avatar */}
             <div
               style={{
-                width: 26,
-                height: 26,
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #0ea5e9, #10b981)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#fff',
-                fontWeight: 800,
-                fontSize: '0.72rem'
+                width: 24, height: 24, borderRadius: '50%',
+                background: 'var(--primary)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: '#fff', fontWeight: 700, fontSize: '0.65rem',
+                flexShrink: 0
               }}
             >
               {currentUser.name.charAt(0)}
             </div>
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '0.78rem', fontWeight: 700, lineHeight: 1.1 }}>
+              <div style={{ fontSize: 'var(--text-sm)', fontWeight: 700, lineHeight: 1.2, color: 'var(--text-main)' }}>
                 {currentUser.name.split(' ')[0]}
               </div>
-              <div style={{ fontSize: '0.65rem', color: 'var(--primary)', fontWeight: 600 }}>
-                {currentUser.role}
+              <div style={{ fontSize: '0.62rem', color: 'var(--color-ai-text)', fontWeight: 600 }}>
+                Demo Persona
               </div>
             </div>
+            <ChevronDown size={12} color="var(--text-dim)" />
           </div>
 
-          {/* Role Dropdown */}
           {isRoleMenuOpen && (
             <div
               style={{
-                position: 'absolute',
-                right: 0,
-                top: 42,
-                width: 240,
+                position: 'absolute', right: 0, top: 44,
+                width: 250,
                 background: 'var(--bg-card-solid)',
                 border: '1px solid var(--border-color-hover)',
                 borderRadius: 'var(--radius-md)',
                 boxShadow: 'var(--shadow-lg)',
-                padding: 8,
-                zIndex: 100
+                padding: 8, zIndex: 100
               }}
             >
-              <div style={{ padding: '6px 10px', fontSize: '0.72rem', color: 'var(--text-dim)', fontWeight: 700, textTransform: 'uppercase' }}>
-                Switch RBAC Persona
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 8px 8px', borderBottom: '1px solid var(--border-color)', marginBottom: 5 }}>
+                <FlaskConical size={12} color="var(--color-ai-text)" />
+                <span style={{ fontSize: '0.65rem', color: 'var(--text-dim)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Demo Persona — Dashboard view changes per role
+                </span>
               </div>
-              {[
-                { role: 'CLINIC_OWNER', label: 'Dr. Arvind Swaminathan', subtitle: 'Clinic Owner / Super Admin' },
-                { role: 'DOCTOR', label: 'Dr. Priya Nair', subtitle: 'Senior Dermatologist (EHR/Rx)' },
-                { role: 'RECEPTIONIST', label: 'Ananya Sharma', subtitle: 'Front Desk & Omnichannel Lead' },
-                { role: 'BILLING_STAFF', label: 'Rohan Mehta', subtitle: 'Invoices, GST & Growth Desk' }
-              ].map((item) => (
+              {rolePersonas.map((item) => (
                 <div
                   key={item.role}
                   onClick={() => {
                     setUserRole(item.role);
                     setIsRoleMenuOpen(false);
+                    setActiveView('dashboard');
                   }}
                   style={{
                     padding: '8px 10px',
                     borderRadius: 'var(--radius-sm)',
                     background: currentUser.role === item.role ? 'var(--primary-light)' : 'transparent',
                     cursor: 'pointer',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 2
+                    display: 'flex', flexDirection: 'column', gap: 2
                   }}
                 >
-                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: currentUser.role === item.role ? 'var(--primary)' : 'var(--text-main)' }}>
+                  <div style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: currentUser.role === item.role ? 'var(--primary)' : 'var(--text-main)' }}>
                     {item.label}
                   </div>
-                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>
+                  <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>
                     {item.subtitle}
                   </div>
                 </div>

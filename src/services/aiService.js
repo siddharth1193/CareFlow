@@ -1,3 +1,16 @@
+/**
+ * CareFlow AI Service
+ *
+ * IMPLEMENTATION: Rule-based keyword matching engine.
+ * This is NOT a large language model (LLM), generative AI, or real-time inference system.
+ * Responses are deterministic and grounded in the demo dataset (initialData.js).
+ *
+ * - processReceptionistQuery: Keyword-matching automated receptionist responses
+ * - processCopilotQuery: Pattern-matched operational intelligence from demo metrics
+ *
+ * Do not label these capabilities as GPT, AI reasoning, or live data analysis.
+ * Accurate terminology: "Operational Copilot", "Automated Assistant", "Demo Intelligence"
+ */
 export const aiService = {
   /**
    * Process patient input in AI Receptionist mode
@@ -83,7 +96,7 @@ export const aiService = {
 
     // Default polite response
     return {
-      reply: "Namaste! I am CareFlow's AI Receptionist for Apex Multispeciality Healthcare.\n\nI can help you:\n1️⃣ Check doctor availability & book appointments\n2️⃣ Get clinic timings & consultation fees\n3️⃣ Download your prescription or lab test report\n4️⃣ Reschedule an appointment\n\nHow may I assist you today?",
+      reply: "Namaste! I am CareFlow's Automated Assistant for Apex Multispeciality Healthcare.\n\nI can help you:\n1️⃣ Check doctor availability & book appointments\n2️⃣ Get clinic timings & consultation fees\n3️⃣ Download your prescription or lab test report\n4️⃣ Reschedule an appointment\n\nHow may I assist you today?",
       suggestedActions: ["Book Appointment", "Find a Doctor", "Check Lab Reports", "Speak to Receptionist"],
       status: "AI_ACTIVE"
     };

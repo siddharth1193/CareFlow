@@ -22,6 +22,7 @@ import { DiagnosticsView } from './components/Diagnostics/DiagnosticsView';
 import { AutomationView } from './components/Automation/AutomationView';
 import { AICopilotView } from './components/AICopilot/AICopilotView';
 import { TasksView } from './components/Tasks/TasksView';
+import { ClinicalCommandCenter } from './components/Clinical/ClinicalCommandCenter';
 
 const MainAppLayout = () => {
   const { activeView } = useApp();
@@ -38,34 +39,21 @@ const MainAppLayout = () => {
 
   const renderActiveView = () => {
     switch (activeView) {
-      case 'dashboard':
-        return <DashboardView />;
-      case 'leads':
-        return <LeadsView />;
-      case 'inbox':
-        return <InboxView />;
-      case 'appointments':
-        return <AppointmentsView />;
-      case 'patients':
-        return <PatientsView />;
-      case 'triage':
-        return <TriageView />;
-      case 'growth':
-        return <GrowthView />;
-      case 'billing':
-        return <BillingView />;
-      case 'pharmacy':
-        return <PharmacyView />;
-      case 'diagnostics':
-        return <DiagnosticsView />;
-      case 'automation':
-        return <AutomationView />;
-      case 'ai-copilot':
-        return <AICopilotView />;
-      case 'tasks':
-        return <TasksView />;
-      default:
-        return <DashboardView />;
+      case 'dashboard':    return <DashboardView />;
+      case 'leads':        return <LeadsView />;
+      case 'inbox':        return <InboxView />;
+      case 'appointments': return <AppointmentsView />;
+      case 'patients':     return <PatientsView />;
+      case 'triage':       return <TriageView />;
+      case 'clinical':     return <ClinicalCommandCenter />;
+      case 'growth':       return <GrowthView />;
+      case 'billing':      return <BillingView />;
+      case 'pharmacy':     return <PharmacyView />;
+      case 'diagnostics':  return <DiagnosticsView />;
+      case 'automation':   return <AutomationView />;
+      case 'ai-copilot':   return <AICopilotView />;
+      case 'tasks':        return <TasksView />;
+      default:             return <DashboardView />;
     }
   };
 
