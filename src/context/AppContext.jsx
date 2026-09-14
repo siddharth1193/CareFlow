@@ -3,14 +3,15 @@ import { INITIAL_DATA } from '../data/initialData';
 import { storageService } from '../services/storageService';
 import { aiService } from '../services/aiService';
 import { automationService } from '../services/automationService';
-import confetti from 'canvas-confetti';
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   // Load state from local storage or defaults
   const [data, setData] = useState(() => storageService.loadState());
-  const [activeView, setActiveView] = useState('dashboard'); // dashboard | leads | inbox | appointments | patients | triage | growth | billing | pharmacy | diagnostics | automation | ai-copilot | tasks | landing | demo
+  const [activeView, setActiveView] = useState(
+    data?.currentUser?.role === 'PATIENT' ? 'patient-dashboard' : 'dashboard'
+  ); // dashboard | leads | inbox | appointments | patients | triage | growth | billing | pharmacy | diagnostics | automation | ai-copilot | tasks | landing | demo
   const [theme, setTheme] = useState(() => localStorage.getItem('careflow_theme') || 'light');
 
   const [activeBranchId, setActiveBranchId] = useState('branch-1');
@@ -72,13 +73,23 @@ export const AppProvider = ({ children }) => {
       DOCTOR:       { name: "Dr. Priya Nair",         role: "DOCTOR",       title: "Senior Consultant Dermatologist" },
       NURSE:        { name: "Sr. Nurse Meera Pillai", role: "NURSE",        title: "Charge Nurse — Clinical Ops" },
       RECEPTIONIST: { name: "Ananya Sharma",          role: "RECEPTIONIST", title: "Patient Flow & Reception" },
-      BILLING_STAFF:{ name: "Rohan Mehta",            role: "BILLING_STAFF",title: "Billing & Finance" }
+      BILLING_STAFF:{ name: "Rohan Mehta",            role: "BILLING_STAFF",title: "Billing & Finance" },
+      PATIENT:      { name: "Suresh Narayanan",       role: "PATIENT",      title: "Patient" }
     };
     const profile = roleProfiles[role] || roleProfiles.CLINIC_OWNER;
+    
+    // Switch data and reset active view based on persona
     setData((prev) => ({
       ...prev,
       currentUser: { ...prev.currentUser, ...profile }
     }));
+    
+    if (role === 'PATIENT') {
+      setActiveView('patient-dashboard');
+    } else {
+      setActiveView('dashboard');
+    }
+
     addToast({
       title: "Persona Switched",
       message: `Demo persona: ${profile.name} · ${profile.title}`,
@@ -187,7 +198,9 @@ export const AppProvider = ({ children }) => {
 
     // Trigger celebration confetti
     try {
-      confetti({ particleCount: 70, spread: 60, origin: { y: 0.7 } });
+      import('canvas-confetti').then(({ default: confetti }) => {
+        confetti({ particleCount: 70, spread: 60, origin: { y: 0.7 } });
+      });
     } catch (_) {}
 
     addToast({
@@ -360,7 +373,9 @@ export const AppProvider = ({ children }) => {
     }));
 
     try {
-      confetti({ particleCount: 90, spread: 80, origin: { y: 0.6 } });
+      import('canvas-confetti').then(({ default: confetti }) => {
+        confetti({ particleCount: 90, spread: 80, origin: { y: 0.6 } });
+      });
     } catch (_) {}
 
     addToast({
@@ -534,7 +549,9 @@ export const AppProvider = ({ children }) => {
     }));
 
     try {
-      confetti({ particleCount: 50, spread: 50 });
+      import('canvas-confetti').then(({ default: confetti }) => {
+        confetti({ particleCount: 50, spread: 50 });
+      });
     } catch (_) {}
 
     addToast({

@@ -285,7 +285,7 @@ export const LeadsView = () => {
           <div className="modal-content">
             <div className="modal-header">
               <div style={{ fontWeight: 800, fontSize: '1rem', color: '#fff' }}>Capture Inbound Patient Lead</div>
-              <button onClick={() => setIsAddModalOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }}>
+              <button onClick={() => setIsAddModalOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }} aria-label="Close modal">
                 <X size={18} />
               </button>
             </div>
@@ -293,8 +293,9 @@ export const LeadsView = () => {
               <div className="modal-body">
                 <div className="grid-2">
                   <div className="input-group">
-                    <label className="input-label">Patient / Lead Name *</label>
+                    <label className="input-label" htmlFor="lead-name">Patient / Lead Name *</label>
                     <input
+                      id="lead-name"
                       type="text"
                       className="input-control"
                       placeholder="e.g. Vikramaditya Rao"
@@ -304,8 +305,9 @@ export const LeadsView = () => {
                     />
                   </div>
                   <div className="input-group">
-                    <label className="input-label">Phone Number *</label>
+                    <label className="input-label" htmlFor="lead-phone">Phone Number *</label>
                     <input
+                      id="lead-phone"
                       type="tel"
                       className="input-control"
                       placeholder="+91 98450 12345"
@@ -318,8 +320,9 @@ export const LeadsView = () => {
 
                 <div className="grid-2">
                   <div className="input-group">
-                    <label className="input-label">Inbound Channel / Source</label>
+                    <label className="input-label" htmlFor="lead-source">Inbound Channel / Source</label>
                     <select
+                      id="lead-source"
                       className="input-control"
                       value={newLeadForm.source}
                       onChange={(e) => setNewLeadForm({ ...newLeadForm, source: e.target.value })}
@@ -333,8 +336,9 @@ export const LeadsView = () => {
                     </select>
                   </div>
                   <div className="input-group">
-                    <label className="input-label">Service / Specialty Interested</label>
+                    <label className="input-label" htmlFor="lead-service">Service / Specialty Interested</label>
                     <input
+                      id="lead-service"
                       type="text"
                       className="input-control"
                       placeholder="e.g. Cardiology Annual Checkup"
@@ -345,8 +349,9 @@ export const LeadsView = () => {
                 </div>
 
                 <div className="input-group">
-                  <label className="input-label">Lead Notes & Inquiries</label>
+                  <label className="input-label" htmlFor="lead-notes">Lead Notes & Inquiries</label>
                   <textarea
+                    id="lead-notes"
                     className="input-control"
                     placeholder="Patient inquired about package pricing and weekend doctor availability..."
                     value={newLeadForm.notes}
@@ -375,7 +380,7 @@ export const LeadsView = () => {
               <div style={{ fontWeight: 800, fontSize: '1rem', color: '#fff' }}>
                 Convert Lead &rarr; Book Appointment ({convertingLead.name})
               </div>
-              <button onClick={() => setConvertingLead(null)} style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }}>
+              <button onClick={() => setConvertingLead(null)} style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }} aria-label="Close modal">
                 <X size={18} />
               </button>
             </div>
@@ -386,8 +391,9 @@ export const LeadsView = () => {
                 </div>
 
                 <div className="input-group">
-                  <label className="input-label">Select Physician / Specialist</label>
+                  <label className="input-label" htmlFor="conv-doc">Select Physician / Specialist</label>
                   <select
+                    id="conv-doc"
                     className="input-control"
                     value={convertForm.doctorId}
                     onChange={(e) => {
@@ -405,8 +411,9 @@ export const LeadsView = () => {
 
                 <div className="grid-2">
                   <div className="input-group">
-                    <label className="input-label">Appointment Date</label>
+                    <label className="input-label" htmlFor="conv-date">Appointment Date</label>
                     <input
+                      id="conv-date"
                       type="date"
                       className="input-control"
                       value={convertForm.date}
@@ -414,8 +421,9 @@ export const LeadsView = () => {
                     />
                   </div>
                   <div className="input-group">
-                    <label className="input-label">Appointment Time</label>
+                    <label className="input-label" htmlFor="conv-time">Appointment Time</label>
                     <input
+                      id="conv-time"
                       type="text"
                       className="input-control"
                       value={convertForm.time}
@@ -426,8 +434,9 @@ export const LeadsView = () => {
 
                 <div className="grid-2">
                   <div className="input-group">
-                    <label className="input-label">Consultation Mode</label>
+                    <label className="input-label" htmlFor="conv-type">Consultation Mode</label>
                     <select
+                      id="conv-type"
                       className="input-control"
                       value={convertForm.type}
                       onChange={(e) => setConvertForm({ ...convertForm, type: e.target.value })}
@@ -437,8 +446,9 @@ export const LeadsView = () => {
                     </select>
                   </div>
                   <div className="input-group">
-                    <label className="input-label">Consultation Fee (₹)</label>
+                    <label className="input-label" htmlFor="conv-fee">Consultation Fee (₹)</label>
                     <input
+                      id="conv-fee"
                       type="number"
                       className="input-control"
                       value={convertForm.fee}

@@ -12,7 +12,6 @@ import {
   Plus,
   X
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
 
 export const TriageView = () => {
   const { patients, addToast } = useApp();
@@ -97,7 +96,9 @@ export const TriageView = () => {
 
     if (nextStage === 'DISCHARGED') {
       try {
-        confetti({ particleCount: 70, spread: 60 });
+        import('canvas-confetti').then(({ default: confetti }) => {
+          confetti({ particleCount: 70, spread: 60 });
+        });
       } catch (_) {}
       addToast({
         title: "Patient Discharged",
@@ -282,7 +283,7 @@ export const TriageView = () => {
               <div style={{ fontWeight: 800, fontSize: '1rem', color: '#fff' }}>
                 Emergency Severity Index (ESI) Triage Calculator
               </div>
-              <button onClick={() => setIsCalculatorOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }}>
+              <button onClick={() => setIsCalculatorOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }} aria-label="Close modal">
                 <X size={18} />
               </button>
             </div>

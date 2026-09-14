@@ -19,7 +19,6 @@ import {
   ShieldAlert,
   ArrowRight
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
 
 export const InteractiveDemoModal = () => {
   const {
@@ -231,10 +230,13 @@ export const InteractiveDemoModal = () => {
 
   const handleFinish = () => {
     try {
-      confetti({ particleCount: 120, spread: 100, origin: { y: 0.5 } });
+      import('canvas-confetti').then(({ default: confetti }) => {
+        confetti({ particleCount: 120, spread: 100, origin: { y: 0.5 } });
+      });
     } catch (_) {}
     closeDemoMode();
     setActiveView('growth');
+    addToast({ title: "Demo Completed", message: "Welcome to CareFlow Production", type: "success" });
   };
 
   return (

@@ -4,8 +4,6 @@
    Light-first · Professional · Semantic
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
 /* ============================================================
    DESIGN TOKENS — LIGHT THEME (DEFAULT)
    ============================================================ */
@@ -52,7 +50,7 @@
   /* ── Text (dark on light) ── */
   --text-main:    #111827;
   --text-muted:   #4b5563;
-  --text-dim:     #9ca3af;
+  --text-dim:     #6b7280; /* Darkened from #9ca3af for WCAG contrast */
   --text-inverse: #ffffff;
 
   /* ── Primary Brand (Muted Blue — Informational / Action) ── */
@@ -66,7 +64,7 @@
   --color-success-hover:   #15803d;
   --color-success-bg:      #f0fdf4;
   --color-success-border:  #bbf7d0;
-  --color-success-text:    #16a34a;
+  --color-success-text:    #15803d; /* Darkened from #16a34a for WCAG contrast */
 
   /* ── Semantic: Warning / Attention / Pending (Amber) ── */
   --color-warning:         #d97706;
@@ -84,7 +82,7 @@
   --color-info:        #2563eb;
   --color-info-bg:     #eff6ff;
   --color-info-border: #bfdbfe;
-  --color-info-text:   #2563eb;
+  --color-info-text:   #1d4ed8; /* Darkened from #2563eb for WCAG contrast */
 
   /* ── Semantic: AI-generated content ONLY (Purple) ── */
   --color-ai:        #7c3aed;
@@ -213,6 +211,23 @@ html, body, #root {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .app-container > aside {
+    width: 100% !important;
+    height: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .app-container > .main-content {
+    flex: none;
+    height: auto;
+  }
 }
 
 .main-content {

@@ -490,7 +490,7 @@ export const PatientsView = () => {
           <div className="modal-content">
             <div className="modal-header">
               <div style={{ fontWeight: 800, fontSize: '1rem', color: '#fff' }}>Register New Patient</div>
-              <button onClick={() => setIsNewPatientModalOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }}>
+              <button onClick={() => setIsNewPatientModalOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }} aria-label="Close modal">
                 <X size={18} />
               </button>
             </div>
@@ -498,8 +498,9 @@ export const PatientsView = () => {
               <div className="modal-body">
                 <div className="grid-2">
                   <div className="input-group">
-                    <label className="input-label">Full Name *</label>
+                    <label className="input-label" htmlFor="pat-name">Full Name *</label>
                     <input
+                      id="pat-name"
                       type="text"
                       className="input-control"
                       placeholder="e.g. Sunita Rao"
@@ -509,8 +510,9 @@ export const PatientsView = () => {
                     />
                   </div>
                   <div className="input-group">
-                    <label className="input-label">Phone Number *</label>
+                    <label className="input-label" htmlFor="pat-phone">Phone Number *</label>
                     <input
+                      id="pat-phone"
                       type="tel"
                       className="input-control"
                       placeholder="+91 98450 12345"
@@ -523,8 +525,9 @@ export const PatientsView = () => {
 
                 <div className="grid-3">
                   <div className="input-group">
-                    <label className="input-label">Age</label>
+                    <label className="input-label" htmlFor="pat-age">Age</label>
                     <input
+                      id="pat-age"
                       type="number"
                       className="input-control"
                       value={newPatForm.age}
@@ -532,8 +535,9 @@ export const PatientsView = () => {
                     />
                   </div>
                   <div className="input-group">
-                    <label className="input-label">Gender</label>
+                    <label className="input-label" htmlFor="pat-gender">Gender</label>
                     <select
+                      id="pat-gender"
                       className="input-control"
                       value={newPatForm.gender}
                       onChange={(e) => setNewPatForm({ ...newPatForm, gender: e.target.value })}
@@ -544,8 +548,9 @@ export const PatientsView = () => {
                     </select>
                   </div>
                   <div className="input-group">
-                    <label className="input-label">Blood Group</label>
+                    <label className="input-label" htmlFor="pat-blood">Blood Group</label>
                     <select
+                      id="pat-blood"
                       className="input-control"
                       value={newPatForm.bloodGroup}
                       onChange={(e) => setNewPatForm({ ...newPatForm, bloodGroup: e.target.value })}
@@ -563,8 +568,9 @@ export const PatientsView = () => {
                 </div>
 
                 <div className="input-group">
-                  <label className="input-label">City / Address</label>
+                  <label className="input-label" htmlFor="pat-address">City / Address</label>
                   <input
+                    id="pat-address"
                     type="text"
                     className="input-control"
                     value={newPatForm.address}

@@ -40,7 +40,8 @@ export const Navbar = () => {
     { role: 'DOCTOR',        label: 'Dr. Priya Nair',         subtitle: 'Senior Dermatologist — Doctor View' },
     { role: 'NURSE',         label: 'Sr. Nurse Meera Pillai', subtitle: 'Charge Nurse — Clinical Ops' },
     { role: 'RECEPTIONIST',  label: 'Ananya Sharma',          subtitle: 'Front Desk — Operations View' },
-    { role: 'BILLING_STAFF', label: 'Rohan Mehta',            subtitle: 'Billing Manager — Finance View' }
+    { role: 'BILLING_STAFF', label: 'Rohan Mehta',            subtitle: 'Billing Manager — Finance View' },
+    { role: 'PATIENT',       label: 'Suresh Narayanan',       subtitle: 'Patient Portal View' }
   ];
 
   return (
@@ -61,9 +62,9 @@ export const Navbar = () => {
     >
       {/* Brand */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-        <div
+        <button
           onClick={() => setActiveView('dashboard')}
-          style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', userSelect: 'none' }}
+          style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', userSelect: 'none', background: 'transparent', border: 'none', padding: 0, textAlign: 'left', font: 'inherit', color: 'inherit' }}
         >
           <div
             style={{
@@ -89,7 +90,7 @@ export const Navbar = () => {
               Healthcare Operations OS
             </div>
           </div>
-        </div>
+        </button>
 
         {/* Branch Selector */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--bg-surface)', padding: '4px 10px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)' }}>
@@ -158,7 +159,13 @@ export const Navbar = () => {
         {/* Landing Page Toggle */}
         <button
           className={`btn btn-sm ${activeView === 'landing' ? 'btn-primary' : 'btn-ghost'}`}
-          onClick={() => setActiveView(activeView === 'landing' ? 'dashboard' : 'landing')}
+          onClick={() => {
+            if (activeView === 'landing') {
+              setActiveView(currentUser?.role === 'PATIENT' ? 'patient-dashboard' : 'dashboard');
+            } else {
+              setActiveView('landing');
+            }
+          }}
           style={{ fontSize: 'var(--text-sm)' }}
         >
           <Globe size={13} />
@@ -179,6 +186,7 @@ export const Navbar = () => {
           <button
             className="btn btn-ghost btn-sm"
             onClick={() => setIsNotifOpen(!isNotifOpen)}
+            aria-label="Toggle notifications"
             style={{ position: 'relative', width: 32, height: 32, padding: 0 }}
           >
             <Bell size={15} />
@@ -231,6 +239,7 @@ export const Navbar = () => {
           className="btn btn-ghost btn-sm"
           onClick={toggleTheme}
           title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           style={{ width: 32, height: 32, padding: 0 }}
         >
           {theme === 'dark' ? <Sun size={15} color="#f59e0b" /> : <Moon size={15} color="var(--primary)" />}
@@ -238,7 +247,7 @@ export const Navbar = () => {
 
         {/* Demo Persona Switcher */}
         <div style={{ position: 'relative' }}>
-          <div
+          <button
             onClick={() => setIsRoleMenuOpen(!isRoleMenuOpen)}
             style={{
               display: 'flex', alignItems: 'center', gap: 7,
@@ -246,7 +255,9 @@ export const Navbar = () => {
               borderRadius: 'var(--radius-sm)',
               background: 'var(--bg-surface)',
               border: '1px solid var(--border-color)',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              color: 'inherit',
+              font: 'inherit'
             }}
           >
             {/* Avatar */}
@@ -270,7 +281,7 @@ export const Navbar = () => {
               </div>
             </div>
             <ChevronDown size={12} color="var(--text-dim)" />
-          </div>
+          </button>
 
           {isRoleMenuOpen && (
             <div
@@ -296,7 +307,6 @@ export const Navbar = () => {
                   onClick={() => {
                     setUserRole(item.role);
                     setIsRoleMenuOpen(false);
-                    setActiveView('dashboard');
                   }}
                   style={{
                     padding: '8px 10px',

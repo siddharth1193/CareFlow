@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useApp } from '../../context/AppContext';
-import { ClinicalCommandCenter } from '../Clinical/ClinicalCommandCenter';
+
+const ClinicalCommandCenter = React.lazy(() => import('../Clinical/ClinicalCommandCenter').then(m => ({ default: m.ClinicalCommandCenter })));
 
 import {
   TrendingUp,
@@ -713,7 +714,11 @@ export const DashboardView = () => {
   const role = currentUser.role;
 
   if (role === 'NURSE') {
-    return <ClinicalCommandCenter />;
+    return (
+      <Suspense fallback={<div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>Loading clinical view...</div>}>
+        <ClinicalCommandCenter />
+      </Suspense>
+    );
   }
 
   return (

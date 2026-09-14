@@ -83,6 +83,7 @@ export const CommandPalette = () => {
           <button
             onClick={() => setIsCommandPaletteOpen(false)}
             style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }}
+            aria-label="Close"
           >
             <X size={18} />
           </button>

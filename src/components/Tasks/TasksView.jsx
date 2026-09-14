@@ -170,15 +170,16 @@ export const TasksView = () => {
           <div className="modal-content">
             <div className="modal-header">
               <div style={{ fontWeight: 800, fontSize: '1rem', color: '#fff' }}>Create Receptionist Task</div>
-              <button onClick={() => setIsAddModalOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }}>
+              <button onClick={() => setIsAddModalOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }} aria-label="Close modal">
                 <X size={18} />
               </button>
             </div>
             <form onSubmit={handleCreateTask}>
               <div className="modal-body">
                 <div className="input-group">
-                  <label className="input-label">Task Title / Action Item *</label>
+                  <label className="input-label" htmlFor="task-title">Task Title / Action Item *</label>
                   <input
+                    id="task-title"
                     type="text"
                     className="input-control"
                     placeholder="e.g. Call patient to confirm insurance pre-auth"
@@ -190,8 +191,9 @@ export const TasksView = () => {
 
                 <div className="grid-2">
                   <div className="input-group">
-                    <label className="input-label">Category</label>
+                    <label className="input-label" htmlFor="task-cat">Category</label>
                     <select
+                      id="task-cat"
                       className="input-control"
                       value={newTaskForm.category}
                       onChange={(e) => setNewTaskForm({ ...newTaskForm, category: e.target.value })}
@@ -205,8 +207,9 @@ export const TasksView = () => {
                   </div>
 
                   <div className="input-group">
-                    <label className="input-label">Priority</label>
+                    <label className="input-label" htmlFor="task-pri">Priority</label>
                     <select
+                      id="task-pri"
                       className="input-control"
                       value={newTaskForm.priority}
                       onChange={(e) => setNewTaskForm({ ...newTaskForm, priority: e.target.value })}
@@ -219,8 +222,9 @@ export const TasksView = () => {
                 </div>
 
                 <div className="input-group">
-                  <label className="input-label">Assigned Staff Persona</label>
+                  <label className="input-label" htmlFor="task-assign">Assigned Staff Persona</label>
                   <input
+                    id="task-assign"
                     type="text"
                     className="input-control"
                     value={newTaskForm.assignedTo}

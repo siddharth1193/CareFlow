@@ -74,6 +74,7 @@ const NavItem = ({ item, isActive, onClick }) => {
 
 export const Sidebar = () => {
   const {
+    currentUser,
     activeView,
     setActiveView,
     leads,
@@ -87,8 +88,9 @@ export const Sidebar = () => {
   const unreadCount        = conversations.reduce((acc, c) => acc + (c.unreadCount || 0), 0);
   const noShowCount        = appointments.filter((a) => a.status === 'NO_SHOW' && !a.isRecovered).length;
   const pendingTasksCount  = tasks.filter((t) => t.status === 'TODO').length;
+  const patientPendingTasks = tasks.filter((t) => t.patientId === 'pat-101' && t.status === 'TODO').length;
 
-  const navSections = [
+  const staffNavSections = [
     {
       title: 'PRIMARY WORKFLOWS',
       items: [
@@ -119,6 +121,34 @@ export const Sidebar = () => {
     }
   ];
 
+  const patientNavSections = [
+    {
+      title: 'MY CARE',
+      items: [
+        { id: 'patient-dashboard',     label: 'Dashboard',         icon: LayoutDashboard },
+        { id: 'patient-appointments',  label: 'Appointments',      icon: Calendar },
+        { id: 'patient-followups',     label: 'Care & Follow-ups', icon: Stethoscope,
+          badge: patientPendingTasks > 0 ? `${patientPendingTasks}` : null, badgeColor: 'badge-amber' },
+        { id: 'patient-diagnostics',   label: 'Diagnostics',       icon: FileSpreadsheet },
+        { id: 'patient-prescriptions', label: 'Prescriptions',     icon: Pill }
+      ]
+    },
+    {
+      title: 'FINANCIAL',
+      items: [
+        { id: 'patient-billing',       label: 'Bills & Payments',  icon: Receipt }
+      ]
+    },
+    {
+      title: 'AI',
+      items: [
+        { id: 'patient-care-assistant',label: 'Care Assistant',    icon: Bot, badge: 'AI', badgeColor: 'badge-ai' }
+      ]
+    }
+  ];
+
+  const currentNavSections = currentUser?.role === 'PATIENT' ? patientNavSections : staffNavSections;
+
   return (
     <aside
       style={{
@@ -134,8 +164,9 @@ export const Sidebar = () => {
         userSelect: 'none'
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-        {navSections.map((sec) => (
+      {/* Main Navigation */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 20 }}>
+        {currentNavSections.map((sec) => (
           <div key={sec.title}>
             <div
               style={{
